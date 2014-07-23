@@ -33,7 +33,6 @@ while page < max_page and exit==0:
             break
         else:
             pass
-    print exit, date[1]
     
     #acquire the url and title
     p_url = re.compile(r'<h2><a href="/node/\d+" target="_blank">.+')
@@ -49,7 +48,7 @@ while page < max_page and exit==0:
         abstract.append(''.join(i.group().split())[18:-4])
     page+=1
 
-
+print "华尔街见闻 - %s\n" %(date_local)
 for i, date_i in enumerate(date): 
     if date_i ==date_local:
         print '%s: %s\n%s: %s\n%s: %s\n\n'  %('标题', title[i], '摘要', abstract[i],'地址',url[i])
