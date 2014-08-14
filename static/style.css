@@ -1,0 +1,53 @@
+#container {margin:0 auto; width:900px;}
+#header { height:20px; margin-bottom:5px;}
+#menu { height:30px; margin-bottom:5px;}
+#mainContent {}
+#sidebar { float:right; width:200px; margin-bottom:5px;}
+#content { float:left; width:675px; padding:10px; margin-bottom:5px;}/*因为是固定宽度，采用左右浮动方法可有效避免ie 3像素bug*/
+#footer { height:60px; }
+.clearfloat { clear:both; height:0; font-size: 1px; line-height: 0px;}
+
+.nav li li a {display:inline-block;}
+.nav li li a {display:block;}
+.nav ul {list-style-type:none;margin:0;padding:0;}
+.nav ul li { float:left;line-height:24px;display:block;border-bottom:dashed #ccc 1px;font-size:0;padding:0;margin:0;width:120px;}
+.nav ul li a {display:block;width:120px;height:24px;font-size:18px;text-align:center;color:#555;text-decoration:none;background:#f7f7f7;}
+.nav ul table {width:100%;border-collapse:collapse;border:0;padding:0;margin:0;}
+.nav ul li ul {display:none;}
+.nav ul li:hover,.nav ul li a:hover,.nav ul li a:active {color:red;background-color:#f1f1f1;}
+.nav ul li:hover ul,.nav ul li a:hover ul,.nav ul li a:active ul {display:block;width:100%;}
+.nav ul ul li {display:block;width:100%;border:none;}
+.nav ul ul li a{display:block;color:blue;border:none;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+a:link { text-decoration: none;color: blue}
+　　 a:active { text-decoration:blink}
+　　 a:hover { text-decoration:underline;color: red}
+　　 a:visited { text-decoration: none;color: green}
+
+
+
+body            { font-family: 'PT Serif',serif,sans-serif;  }
+p {font-family: 'PT Serif',serif,sans-serif;}
+a, h1, h2       { color: #377ba8; }
+h1, h2          { font-family: 'PT Serif',serif,sans-serif; margin: 0; }
+h1              { border-bottom: 2px solid #eee; }
+h2              { font-size: 1.2em; }

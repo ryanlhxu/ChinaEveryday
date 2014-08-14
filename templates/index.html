@@ -1,0 +1,12 @@
+{% extends "base.html"%}
+{%block content%}
+
+<h1>{{header}}</h1>
+<br/>
+{% for item in items %}
+<h2><a href="{{item['my_url']}}">{{item['title']}}</a></h2>
+<p> {{item['abstract']}} </p>
+
+
+{%endfor%}
+{% endblock%}

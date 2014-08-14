@@ -1,0 +1,22 @@
+{% extends "base.html"%}
+{%block content%}
+
+<div class="wrap">
+<h1>{{title}}</h1>
+<p><i>{{notice}}</i></p>
+
+<p id="demo"></p>
+<script>
+function HTMLDecode(text)
+{
+var temp = document.createElement("div");
+temp.innerHTML = text;
+var output = temp.innerText || temp.textContent;
+temp = null;
+return output;
+}
+document.getElementById("demo").innerHTML=HTMLDecode("{{main}}");
+</script>
+</div>
+</article>
+{% endblock %}
