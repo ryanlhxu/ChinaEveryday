@@ -3,25 +3,30 @@ import re
 import urllib
 from HTMLParser import HTMLParser
 import datetime
-import time
+import MySQLdb
+
+conn = MySQLdb.connect(user='root',passwd='',host='localhost')
+cur = conn.cursor()
+conn.select_db('xuliheng')
+
 
 class author_parser(HTMLParser):
     def __init__(self):
         HTMLParser.__init__(self)
         self.flag = False
-        self.author = []
-        self.author_url = []
+        self.author = ''
+        self.author_url = ''
         self.item = {}
     def handle_starttag(self,tag,attrs):
         if tag == 'a' and attrs:
             for key, value in attrs:
                 if key == 'href':
                     self.flag = True
-                    self.author_url.append('http://www.nber.org'+value)
+                    self.author_url+=value[8:]+'|'
 
     def handle_data(self,data):
         if self.flag == True:
-            self.author.append(data)
+            self.author+=data+'|'
     def handle_endtag(self,tag):
         #处理结束标签
         if tag == 'a':
@@ -31,8 +36,9 @@ class author_parser(HTMLParser):
         self.item['author_url'] = self.author_url
         return self.item
 
-start_article_id =  20500
-maxits = 5
+cur.execute("select * from nber order by article_id desc limit 0,1")
+start_article_id =  cur.fetchone()[0]+1
+maxits = 10
 items = []
 its = 0
 flag = True
@@ -42,9 +48,17 @@ while its<maxits and  flag == True:
     start_article_url = 'http://www.nber.org/papers/w'+str(start_article_id)
     con = urllib.urlopen(start_article_url).read()
     read_flag = con.find(r'Paper Not Found')
+    
     if read_flag != -1:
-        flag = False
-        break
+        next_article_url = 'http://www.nber.org/papers/w'+str(start_article_id+1)
+        next_con = urllib.urlopen(next_article_url).read()
+        next_read_flag = next_con.find(r'Paper Not Found')
+        if next_read_flag !=-1:
+            flag = False
+            break
+        else:
+            start_article_id +=1
+            its+=1
     else:
         initial = con.find(r'<div id="mainNewsDiv">')
         title_initial = con.find(r"title'>",initial)
@@ -61,6 +75,19 @@ while its<maxits and  flag == True:
         abstract = con[abstract_initial+10:abstract_end-1]
         item['abstract']  = abstract
         item['title'] = title
+        item['article_id'] = start_article_id
         items.append(item)
         its+=1
         start_article_id+=1
+
+f_add = "insert into nber(article_id,author,author_url,title,abstract) value(%s,%s,%s,%s,%s)"
+#items = [{'id':1,'title':'hello'},{'id':2,'title':'world'}]
+for item in items:
+    c_add = (item['article_id'],item['author'],item['author_url'],item['title'],item['abstract'])
+    cur.execute(f_add, c_add)
+
+cur.close()
+conn.commit()
+conn.close()
+
+
